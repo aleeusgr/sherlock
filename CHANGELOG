@@ -10,4 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Google AppSheets database: Kitchens, Dishes, Food Reviews
-- Customer UI: navigate menu and add a review
+- Customer Survey UI: navigate menu and add a review
+- Customer Survey Card: fill and process by hand, automate later
+- TODO: vendor UI: maintain dishes table, read reviews
