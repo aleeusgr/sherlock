@@ -3,392 +3,403 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đông Vui Survey Card</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Đông Vui Food Court — Guest Survey</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #d0d0d0;
+    background: #e0e0e0;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 40px 20px;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
     font-family: 'Source Sans 3', sans-serif;
   }
 
   .card {
-    width: 148mm;
-    background: #ffffff;
-    border: 1px solid #222;
-    padding: 8mm 9mm 7mm;
-    color: #111;
-    font-size: 8.5pt;
+    width: 210mm;
+    height: 148mm;
+    background: #fff;
+    border: 2px solid #000;
+    display: grid;
+    grid-template-columns: 52mm 1fr 1fr;
+    grid-template-rows: 1fr;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 6px 6px 0 #000;
+  }
+
+  /* Decorative corner cuts */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 18mm 18mm 0;
+    border-color: transparent #000 transparent transparent;
+    z-index: 10;
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 14mm 0 0 14mm;
+    border-color: transparent transparent transparent #000;
+    z-index: 10;
+  }
+
+  /* ── COLUMN 1: Header + Section 1 ── */
+  .col-header {
+    border-right: 2px solid #000;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-area {
+    background: #000;
+    color: #fff;
+    padding: 8mm 6mm 6mm;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo-area img {
+    width: 28mm;
+    margin-bottom: 3mm;
+  }
+
+  .logo-area .tagline {
+    font-family: 'Playfair Display', serif;
+    font-size: 7pt;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #ccc;
     line-height: 1.4;
   }
 
-  /* Header */
-  .header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    border-bottom: 2px solid #111;
-    padding-bottom: 4mm;
-    margin-bottom: 4.5mm;
-  }
-
-  .logo-name {
+  .logo-area .title-main {
     font-family: 'Playfair Display', serif;
-    font-size: 20pt;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.5px;
+    font-size: 14pt;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    margin-top: 1mm;
   }
 
-  .logo-tagline {
-    font-size: 6pt;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: #555;
-    margin-top: 1.5mm;
-  }
-
-  .logo-location {
-    font-size: 6pt;
-    letter-spacing: 1px;
-    color: #999;
-    margin-top: 0.5mm;
-  }
-
-  .header-right {
-    text-align: right;
-    padding-top: 1mm;
-  }
-
-  .card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 10pt;
-    font-style: italic;
-    color: #333;
-  }
-
-  .card-date-line {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 2mm;
-    margin-top: 2mm;
-    font-size: 6.5pt;
-    color: #999;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .date-field {
-    border-bottom: 0.5px solid #bbb;
-    width: 18mm;
-    height: 4mm;
-    display: inline-block;
-  }
-
-  /* Section labels */
-  .section-label {
-    font-size: 6pt;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: #777;
-    font-weight: 600;
-    margin-bottom: 2mm;
-  }
-
-  .section {
-    margin-bottom: 4mm;
-  }
-
-  /* Kitchen grid */
-  .kitchens-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5mm 2mm;
-  }
-
-  .kitchen-item {
-    display: flex;
-    align-items: center;
-    gap: 1.8mm;
-    font-size: 7.5pt;
-  }
-
-  .checkbox {
-    width: 3.2mm;
-    height: 3.2mm;
-    border: 0.8px solid #333;
-    flex-shrink: 0;
-  }
-
-  /* Dish line */
-  .dish-row {
-    display: flex;
-    align-items: flex-end;
-    gap: 3mm;
-    margin-bottom: 4mm;
-  }
-
-  .dish-label {
-    font-size: 6pt;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #777;
-    font-weight: 600;
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding-bottom: 0.5mm;
-  }
-
-  .dish-line {
+  .section1 {
     flex: 1;
-    border-bottom: 1px solid #999;
-    height: 5mm;
+    padding: 5mm 6mm;
+    border-top: 2px solid #000;
   }
 
-  /* Ratings */
-  .ratings-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 4mm;
-  }
-
-  .ratings-table thead tr th {
+  .sec-label {
     font-size: 5.5pt;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #999;
-    font-weight: 400;
-    text-align: center;
-    padding-bottom: 2mm;
+    color: #000;
+    margin-bottom: 3mm;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+  }
+  .sec-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #000;
   }
 
-  .ratings-table thead tr th.lbl { text-align: left; }
-
-  .ratings-table tbody tr td {
-    padding: 1.8mm 0;
-    border-top: 0.5px solid #e8e8e8;
-    vertical-align: middle;
-  }
-
-  .ratings-table tbody tr td.lbl {
-    font-size: 8pt;
-    padding-right: 2mm;
-    white-space: nowrap;
-    color: #222;
-  }
-
-  .star-cell {
-    text-align: center;
-  }
-
-  .star {
-    display: inline-block;
-    width: 5.5mm;
-    height: 5.5mm;
-    line-height: 5.5mm;
-    font-size: 11pt;
-    color: #ccc;
-  }
-
-  /* Divider */
-  hr {
-    border: none;
-    border-top: 0.5px solid #ddd;
-    margin: 3.5mm 0;
-  }
-
-  /* Freeform */
-  .freeform-block {
-    margin-bottom: 4mm;
-  }
-
-  .freeform-q {
-    font-family: 'Playfair Display', serif;
-    font-size: 9.5pt;
-    font-style: italic;
-    margin-bottom: 1.5mm;
-  }
-
-  .freeform-hints {
+  .field-group { margin-bottom: 4mm; }
+  .field-label {
     font-size: 6pt;
-    color: #aaa;
-    letter-spacing: 0.3px;
-    line-height: 1.5;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     margin-bottom: 2mm;
+    color: #444;
   }
+
+  .radio-row {
+    display: flex;
+    gap: 3mm;
+  }
+  .radio-opt {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    font-size: 7pt;
+  }
+  .box {
+    width: 4mm; height: 4mm;
+    border: 1.5px solid #000;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .box.circle { border-radius: 50%; }
 
   .write-line {
-    border-bottom: 0.5px solid #ccc;
-    height: 5.5mm;
-    margin-bottom: 1.2mm;
-  }
-
-  /* Footer */
-  .footer {
-    border-top: 1px solid #bbb;
-    padding-top: 3mm;
+    border-bottom: 1.5px solid #000;
+    height: 5mm;
     margin-top: 1mm;
+  }
+
+  /* ── COLUMN 2: Kitchens ── */
+  .col-kitchens {
+    border-right: 2px solid #000;
+    padding: 5mm 5mm;
+  }
+
+  .kitchen-grid {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 1.8mm;
+    margin-top: 3mm;
   }
 
-  .footer-note {
-    font-size: 5.5pt;
-    color: #bbb;
-    max-width: 85mm;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
+  .kitchen-row {
+    display: grid;
+    grid-template-columns: 1fr 5mm 5mm;
+    align-items: center;
+    gap: 2mm;
   }
 
-  .footer-mark {
-    font-family: 'Playfair Display', serif;
+  .kitchen-name {
     font-size: 7pt;
-    color: #ccc;
-    letter-spacing: 0.5px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .kitchen-col-header {
+    font-size: 5pt;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #555;
+    line-height: 1.2;
+  }
+
+  /* ── COLUMN 3: Rating + Tags ── */
+  .col-right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .col-rating {
+    padding: 5mm 5mm 4mm;
+    border-bottom: 2px solid #000;
+    flex-shrink: 0;
+  }
+
+  .star-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2mm;
+  }
+  .star-label {
+    font-size: 6.5pt;
+    min-width: 28mm;
+  }
+  .stars {
+    display: flex;
+    gap: 1mm;
+  }
+  .star {
+    width: 4mm; height: 4mm;
+    border: 1.5px solid #000;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: transparent;
+  }
+
+  .yn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2mm;
+  }
+  .yn-opts {
+    display: flex;
+    gap: 2mm;
+  }
+  .yn-opt {
+    font-size: 6.5pt;
+    display: flex;
+    align-items: center;
+    gap: 1mm;
+  }
+
+  .col-tags {
+    flex: 1;
+    padding: 4mm 5mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm;
+  }
+
+  .tag-cloud-block { }
+  .tag-cloud-label {
+    font-size: 5.5pt;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2mm;
+  }
+  .tag-cloud-label.positive { }
+  .tag-cloud-label.negative { }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5mm;
+  }
+  .tag {
+    border: 1.5px solid #000;
+    border-radius: 0;
+    padding: 0.5mm 2mm;
+    font-size: 5.5pt;
+    display: flex;
+    align-items: center;
+    gap: 1mm;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  .tag .tag-box {
+    width: 3mm; height: 3mm;
+    border: 1px solid #000;
+    flex-shrink: 0;
   }
 
   @media print {
-    body { background: white; padding: 0; margin: 0; }
-    .card { border: 0.5px solid #ccc; }
+    body { background: white; padding: 0; display: block; }
+    .card { box-shadow: none; margin: 0 auto; }
   }
 </style>
 </head>
 <body>
+
 <div class="card">
 
-  <!-- Header -->
-  <div class="header">
-    <div>
-      <div class="logo-name">Đông Vui</div>
-      <div class="logo-tagline">A Very Different Food Court</div>
-      <div class="logo-location">Mũi Né &nbsp;·&nbsp; Vietnam</div>
+  <!-- COL 1: Branding + Visit Info -->
+  <div class="col-header">
+    <div class="logo-area">
+      <div class="title-main">Đông Vui</div>
+      <div class="tagline">Food Court · Mũi Né<br>Guest Survey</div>
     </div>
-    <div class="header-right">
-      <div class="card-title">Your Feedback</div>
-      <div class="card-date-line">Date <span class="date-field"></span></div>
-    </div>
-  </div>
 
-  <!-- Kitchen Selection -->
-  <div class="section">
-    <div class="section-label">Which kitchen are you rating?</div>
-    <div class="kitchens-grid">
-      <div class="kitchen-item"><span class="checkbox"></span> Brunch Bar</div>
-      <div class="kitchen-item"><span class="checkbox"></span> The Coconut Tree</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Taste of India</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Burger Hut</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Ẩm Thực Việt</div>
-      <div class="kitchen-item"><span class="checkbox"></span> An Sang</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Aroi</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Joya</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Vegito</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Thanh's Steakhouse</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Funky</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Hot Stone</div>
-      <div class="kitchen-item"><span class="checkbox"></span> OK Pizza</div>
-      <div class="kitchen-item"><span class="checkbox"></span> Desserts</div>
+    <div class="section1">
+      <div class="sec-label">01 Your Visit</div>
+
+      <div class="field-group">
+        <div class="field-label">I am a…</div>
+        <div class="radio-row" style="flex-direction:column; gap:2mm;">
+          <label class="radio-opt"><span class="box circle"></span> First time guest</label>
+          <label class="radio-opt"><span class="box circle"></span> Occasional visitor</label>
+          <label class="radio-opt"><span class="box circle"></span> Regular</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Dish Name</div>
+        <div class="write-line"></div>
+        <div class="write-line" style="margin-top:2mm;"></div>
+      </div>
     </div>
   </div>
 
-  <hr>
-
-  <!-- Dish -->
-  <div class="dish-row">
-    <div class="dish-label">Dish name</div>
-    <div class="dish-line"></div>
+  <!-- COL 2: Kitchens -->
+  <div class="col-kitchens">
+    <div class="sec-label">02 Kitchen</div>
+    <div class="kitchen-grid">
+      <div class="kitchen-row">
+        <span></span>
+        <span class="kitchen-col-header">This order</span>
+        <span class="kitchen-col-header">Past 2 wks</span>
+      </div>
+      <div class="kitchen-row"><span class="kitchen-name">Brunch Bar</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">The Coconut Tree</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Taste of India</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Burger Hut</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Ẩm Thực Việt</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">An Sang</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Aroi</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Joya</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Vegito</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Thanh's Steakhouse</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Funky</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Hot Stone</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">OK Pizza</span><span class="box"></span><span class="box"></span></div>
+      <div class="kitchen-row"><span class="kitchen-name">Desserts</span><span class="box"></span><span class="box"></span></div>
+    </div>
   </div>
 
-  <!-- Star Ratings -->
-  <div class="section">
-    <div class="section-label">Rate your dish &nbsp;— circle a star</div>
-    <table class="ratings-table">
-      <thead>
-        <tr>
-          <th class="lbl"></th>
-          <th>1<br><span style="font-size:4.5pt;color:#ccc">poor</span></th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5<br><span style="font-size:4.5pt;color:#ccc">great</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="lbl">Tastiness</td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-        </tr>
-        <tr>
-          <td class="lbl">Value for money</td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-        </tr>
-        <tr>
-          <td class="lbl">Serving time</td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-        </tr>
-        <tr>
-          <td class="lbl">Portion size</td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-        </tr>
-        <tr>
-          <td class="lbl">Would order again?</td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-          <td class="star-cell"><span class="star">☆</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- COL 3: Ratings + Tags -->
+  <div class="col-right">
+    <div class="col-rating">
+      <div class="sec-label">03 Rate This Dish</div>
 
-  <hr>
+      <div class="star-row"><span class="star-label">Tastiness</span><div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div></div>
+      <div class="star-row"><span class="star-label">Value for Money</span><div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div></div>
+      <div class="star-row"><span class="star-label">Serving Time</span><div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div></div>
+      <div class="star-row"><span class="star-label">Portion Size</span><div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div></div>
 
-  <!-- Disappoint -->
-  <div class="freeform-block">
-    <div class="freeform-q">Did anything disappoint you?</div>
-    <div class="freeform-hints">e.g. portion too small &nbsp;·&nbsp; took too long &nbsp;·&nbsp; too spicy / not spicy enough &nbsp;·&nbsp; served cold &nbsp;·&nbsp; wrong order &nbsp;·&nbsp; unclear menu &nbsp;·&nbsp; dietary info missing &nbsp;·&nbsp; not what I expected</div>
-    <div class="write-line"></div>
-    <div class="write-line"></div>
-  </div>
+      <div class="yn-row">
+        <span class="star-label" style="font-size:6.5pt;">Order Again?</span>
+        <div class="yn-opts">
+          <label class="yn-opt"><span class="box circle"></span> Yes</label>
+          <label class="yn-opt"><span class="box circle"></span> Maybe</label>
+          <label class="yn-opt"><span class="box circle"></span> No</label>
+        </div>
+      </div>
+      <div class="yn-row">
+        <span class="star-label" style="font-size:6.5pt;">Ingredients Clear?</span>
+        <div class="yn-opts">
+          <label class="yn-opt"><span class="box circle"></span> Yes</label>
+          <label class="yn-opt"><span class="box circle"></span> Unsure</label>
+          <label class="yn-opt"><span class="box circle"></span> No</label>
+        </div>
+      </div>
+    </div>
 
-  <!-- Surprise -->
-  <div class="freeform-block">
-    <div class="freeform-q">Did anything surprise you?</div>
-    <div class="freeform-hints">e.g. amazing value &nbsp;·&nbsp; generous portion &nbsp;·&nbsp; unique flavour &nbsp;·&nbsp; faster than expected &nbsp;·&nbsp; beautiful presentation &nbsp;·&nbsp; friendly service &nbsp;·&nbsp; hidden gem dish</div>
-    <div class="write-line"></div>
-    <div class="write-line"></div>
-  </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <div class="footer-note">Drop this card at the bar or hand it to any team member. Your feedback goes directly to the kitchen and helps the whole community grow.</div>
-    <div class="footer-mark">Đông Vui</div>
+    <div class="col-tags">
+      <div class="tag-cloud-block">
+        <div class="tag-cloud-label positive">04 Surprised by</div>
+        <div class="tags">
+          <div class="tag"><span class="tag-box"></span>Flavour</div>
+          <div class="tag"><span class="tag-box"></span>Presentation</div>
+          <div class="tag"><span class="tag-box"></span>Speed</div>
+          <div class="tag"><span class="tag-box"></span>Portion size</div>
+          <div class="tag"><span class="tag-box"></span>Staff warmth</div>
+          <div class="tag"><span class="tag-box"></span>Value</div>
+          <div class="tag"><span class="tag-box"></span>Atmosphere</div>
+          <div class="tag"><span class="tag-box"></span>Freshness</div>
+        </div>
+      </div>
+      <div class="tag-cloud-block">
+        <div class="tag-cloud-label negative">Disappointed by</div>
+        <div class="tags">
+          <div class="tag"><span class="tag-box"></span>Waiting time</div>
+          <div class="tag"><span class="tag-box"></span>Presentation</div>
+          <div class="tag"><span class="tag-box"></span>Not as described</div>
+          <div class="tag"><span class="tag-box"></span>Table position</div>
+          <div class="tag"><span class="tag-box"></span>Temperature</div>
+          <div class="tag"><span class="tag-box"></span>Noise level</div>
+          <div class="tag"><span class="tag-box"></span>Portion size</div>
+          <div class="tag"><span class="tag-box"></span>Cleanliness</div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
+
 </body>
 </html>
